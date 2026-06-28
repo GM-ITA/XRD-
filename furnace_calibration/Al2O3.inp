@@ -1,0 +1,126 @@
+iters 5000   
+chi2_convergence_criteria 0.0001   
+   
+do_errors   
+
+num_runs 39
+prm nr = Run_Number ;
+
+
+#list File_Name Temp  {
+ ../ch7630_Al2O3_25C_w0003_b0002_1.xye 25  
+ ../ch7630_Al2O3_47C_w0003_b0002_1.xye 47  
+ ../ch7630_Al2O3_69C_w0003_b0002_1.xye 69  
+ ../ch7630_Al2O3_91C_w0003_b0002_1.xye 91  
+ ../ch7630_Al2O3_115C_w0003_b0002_1.xye 115 
+ ../ch7630_Al2O3_138C_w0003_b0002_1.xye 138 
+ ../ch7630_Al2O3_162C_w0003_b0002_1.xye 162 
+ ../ch7630_Al2O3_185C_w0003_b0002_1.xye 185 
+ ../ch7630_Al2O3_208C_w0003_b0002_1.xye 208 
+ ../ch7630_Al2O3_232C_w0003_b0002_1.xye 232 
+ ../ch7630_Al2O3_255C_w0003_b0002_1.xye 255 
+ ../ch7630_Al2O3_279C_w0003_b0002_1.xye 279 
+ ../ch7630_Al2O3_302C_w0003_b0002_1.xye 302 
+ ../ch7630_Al2O3_325C_w0003_b0002_1.xye 325  
+ ../ch7630_Al2O3_349C_w0003_b0002_1.xye 349 
+ ../ch7630_Al2O3_372C_w0003_b0002_1.xye 372 
+ ../ch7630_Al2O3_395C_w0003_b0002_1.xye 395 
+ ../ch7630_Al2O3_419C_w0003_b0002_1.xye 419 
+ ../ch7630_Al2O3_442C_w0003_b0002_1.xye 442 
+ ../ch7630_Al2O3_465C_w0003_b0002_1.xye 465 
+ ../ch7630_Al2O3_489C_w0003_b0002_1.xye 489 
+ ../ch7630_Al2O3_512C_w0003_b0002_1.xye 512 
+ ../ch7630_Al2O3_536C_w0003_b0002_1.xye 536 
+ ../ch7630_Al2O3_559C_w0003_b0002_1.xye 559 
+ ../ch7630_Al2O3_583C_w0003_b0002_1.xye 583 
+ ../ch7630_Al2O3_606C_w0003_b0002_1.xye 606 
+ ../ch7630_Al2O3_629C_w0003_b0002_1.xye 629 
+ ../ch7630_Al2O3_653C_w0003_b0002_1.xye 653 
+ ../ch7630_Al2O3_676C_w0003_b0002_1.xye 676 
+ ../ch7630_Al2O3_699C_w0003_b0002_1.xye 699 
+ ../ch7630_Al2O3_723C_w0003_b0002_1.xye 723 
+ ../ch7630_Al2O3_746C_w0003_b0002_1.xye 746 
+ ../ch7630_Al2O3_770C_w0003_b0002_1.xye 770 
+ ../ch7630_Al2O3_793C_w0003_b0002_1.xye 793 
+ ../ch7630_Al2O3_817C_w0003_b0002_1.xye 817 
+ ../ch7630_Al2O3_840C_w0003_b0002_1.xye 840 
+ ../ch7630_Al2O3_864C_w0003_b0002_1.xye 864 
+ ../ch7630_Al2O3_887C_w0003_b0002_1.xye 887 
+ ../ch7630_Al2O3_900C_plat_w0003_b0002_1.xye 900 
+}
+ 
+
+
+out_file = Concat(String(INP_File), ".out") ;
+
+system_after_save_OUT
+{
+ copy INP_File##.out INP_File##Temp(Run_Number)##.out ''save a copy of the output file
+ copy INP_File##.out INP_File##.inp  ''create the next input file
+}
+
+prm !TC = Temp(Run_Number) ;
+prm !TK = 273.15 + Temp(Run_Number) ;
+
+
+xdd File_Name(Run_Number) 
+lam   
+ymin_on_ymax  1e-4   
+la  1 lo  0.35445 lh 0    
+	   
+x_calculation_step  =  Yobs_dx_at(Xo) ;   
+start_X 5 
+extra_X_right 0.05   
+weighting = 1/SigmaYobs^2 ;   
+LP_Factor(90)   
+th2_offset  @ -0.0002194513`_0.000132760884
+ 
+no_LIMIT_warnings  
+
+ bkg  @ 208.193641_0.242554942 -148.891622_0.46868773  81.1879604_0.445478746 -63.0429718_0.427013532  
+ 59.3770913_0.409318166 -41.1846838_0.398008623  9.70151778_0.386489574  0.184068732_0.380953916
+
+
+str   
+local  !phase_number 1  
+phase_name "Al2O3" 
+scale @  1.86339802e-05`_2.461e-07
+  
+  prm     p1  1.10919272e-05`_0.0059846722 min 0 max 0.2 
+  prm     p2  0.00371577767`_0.000649226606 min 0 max 0.2 
+  prm     p3  2.85924552e-08`_0.00604114102 min 0 max 0.2 
+  prm     p4  0.00693108314`_0.000657720664 min 0 max 0.2  
+   
+    lor_fwhm =   p1 Tan(Th) + p2/Cos(Th) ;    
+    gauss_fwhm = p3 Tan(Th) + p4/Cos(Th) ;  
+
+
+space_group "R-3c" 
+   
+a    @  4.791987`_0.000050
+b    = Get(a) ;  
+c    @  13.091665`_0.000171
+al    90   
+be    90 
+ga    120  
+volume  vol  260.350`_0.006 min 254.94587 max 254.94599
+ 
+site  Al  x 0 y 0 z @  0.35233`_0.00016 occ Al 1  beq @  1.67892`_0.05079 num_posns  12 
+site  O   x @  0.30823`_0.00076 y 0   z   0.25   occ O  1   beq  @  1.79413`_0.08290 num_posns  18	 
+
+
+Out_prms("results_VI.txt" , nr, TC , TK , Get(a), Get(c), Get(cell_volume))
+
+
+
+'instrumental profile from Si_cal
+for strs 
+{
+ prm   !pr1  0.0110035116 min 0.00001 
+ prm   !pr2  0.000607938824 min 0.00001 
+ prm   !pr3  3.84375e-05 min 0.00001 
+ prm   !pr4  0.00192591549 min 0.00001 
+ 
+ lor_fwhm = pr1 Tan(Th) + pr2/Cos(Th) ; 
+ gauss_fwhm = pr3 Tan(Th) + pr4/Cos(Th) ;
+}
