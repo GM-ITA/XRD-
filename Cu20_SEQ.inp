@@ -1,0 +1,410 @@
+r_wp  11.1544849
+r_exp  3.11736509
+gof  3.57817726
+
+iters 5000    
+chi2_convergence_criteria 0.0001    
+   
+do_errors   
+
+
+
+
+prm nr = Run_Number ;
+
+
+'#define test_cz
+
+#ifdef test_cz
+ num_runs 1
+ #list File_Name Temp {
+  ch7630_Cu22_999C_plat_w0003_b0002.xye 999
+  }
+
+#else
+
+ num_runs 32  
+ #list File_Name Temp {
+  
+  ../ch7630_Cu20b_883C_w0003_b0002.xye 883 
+  ../ch7630_Cu20b_859C_w0003_b0002.xye 859 
+  ../ch7630_Cu20b_836C_w0003_b0002.xye 836 
+  ../ch7630_Cu20b_812C_w0003_b0002.xye 812  
+ 
+  ../ch7630_Cu20b_789C_w0003_b0002.xye 789 
+  ../ch7630_Cu20b_765C_w0003_b0002.xye 765
+  ../ch7630_Cu20b_742C_w0003_b0002.xye 742
+  ../ch7630_Cu20b_718C_w0003_b0002.xye 718
+  ../ch7630_Cu20b_695C_w0003_b0002.xye 695 
+  ../ch7630_Cu20b_671C_w0003_b0002.xye 671
+  ../ch7630_Cu20b_647C_w0003_b0002.xye 647
+  ../ch7630_Cu20b_624C_w0003_b0002.xye 624
+  ../ch7630_Cu20b_600C_w0003_b0002.xye 600
+  ../ch7630_Cu20b_577C_w0003_b0002.xye 577
+  ../ch7630_Cu20b_553C_w0003_b0002.xye 553
+  ../ch7630_Cu20b_530C_w0003_b0002.xye 530
+ 
+  ../ch7630_Cu20b_506C_w0003_b0002.xye 506
+  ../ch7630_Cu20b_483C_w0003_b0002.xye 483
+  ../ch7630_Cu20b_459C_w0003_b0002.xye 459 
+  
+  ../ch7630_Cu20b_436C_w0003_b0002.xye 436 
+  ../ch7630_Cu20b_412C_w0003_b0002.xye 412          
+  ../ch7630_Cu20b_388C_w0003_b0002.xye 388
+  ../ch7630_Cu20b_365C_w0003_b0002.xye 365
+  ../ch7630_Cu20b_341C_w0003_b0002.xye 341
+  ../ch7630_Cu20b_318C_w0003_b0002.xye 318
+  ../ch7630_Cu20b_294C_w0003_b0002.xye 294 
+  ../ch7630_Cu20b_271C_w0003_b0002.xye 271 
+  
+  ../ch7630_Cu20b_248C_w0003_b0002.xye 248
+  ../ch7630_Cu20b_224C_w0003_b0002.xye 224  
+  ../ch7630_Cu20b_201C_w0003_b0002.xye 201 
+  ../ch7630_Cu20b_86C_w0003_b0002.xye 86  
+  ../ch7630_Cu20b_65C_w0003_b0002.xye 65 
+}
+#endif
+
+
+
+
+out_file = Concat(String(INP_File), ".out") ;
+
+system_after_save_OUT
+{
+ copy INP_File##.out INP_File_##Temp(Run_Number)##.out ''save an individ. copy of the output file
+ copy INP_File##.out INP_File##.inp  ''create the next input file
+}
+
+prm !TC = Temp(Run_Number) ;
+prm !TK = 273.15 + Temp(Run_Number) ;
+
+
+
+'####Define temperature ranges####
+
+
+
+
+#prm t = Temp(Run_Number);
+
+#if (t<=224) 
+#define RS
+
+#elseif And(t >= 248 , t<=436); 
+#define TET
+#define RS
+
+#elseif And(t >= 459 , t<=506);
+#define TET
+#define RS
+
+#elseif And(t >= 530 , t<=577);
+#define TET
+#define Gug
+
+#elseif And(t >= 600 , t<=647);
+#define RS
+#define Gug
+#define ZnO
+
+#elseif And(t >= 671 , t<=789);
+#define RS
+#define Gug
+#define CuO
+#define ZnO
+
+#elseif (t>=812)
+#define RS
+#define ZnO
+#define CuO
+
+#endif
+
+
+
+'Out and Prm() are defined in local.inc
+
+
+
+xdd File_Name(Run_Number) 
+
+
+
+bkg =c0; =c1; =c2; =c3; =c4; =c5; =c6; =c7; =c8; =c9; =c10; =c11; =c12; =c13; =c14; =c15; =c16; =c17; =c18; =c19; =c20; =c21; =c22; =c23; =c24; =c25; =c26; =c27; =c28; =c29; =c30; =c31; 
+
+
+prm c0  254.712135`_1.76660098
+prm !c1 -24.9221789            
+prm !c2  -47.6238024           
+prm !c3   4.20780793           
+prm !c4   -4.70779965          
+prm !c5  16.0422427            
+prm !c6   -13.9193977          
+prm !c7      17.3041734        
+prm !c8    4.81088259          
+prm !c9     -10.1964279        
+prm !c10    -12.3695413        
+prm !c11     -4.53200809       
+prm !c12    25.6261201         
+prm !c13    -15.2008206        
+prm !c14     -7.20804341       
+prm !c15    6.09547342         
+prm !c16   -3.61182983         
+prm !c17   9.42216074          
+prm !c18     0.671160506       
+prm !c19     -8.56417052       
+prm !c20    -3.03531083        
+prm !c21    0.681429106        
+prm !c22    3.56827256         
+prm !c23    -5.82805173        
+prm !c24   -2.60338899         
+prm !c25   -0.217337565        
+prm !c26    -2.61075492        
+prm !c27    -6.96579032        
+prm !c28   3.26554412          
+prm !c29    5.93403024         
+prm !c30   -2.53667394         
+prm !c31     -12.0243749    
+ 
+	lam   
+	ymin_on_ymax  1e-5   
+	la  1 lo  0.35445 lh 0    
+	   
+
+x_calculation_step = Yobs_dx_at(Xo) ;   
+start_X 3 
+finish_X 28
+extra_X_right 0.05   
+weighting = 1/SigmaYobs^2 ;   
+
+
+LP_Factor(90) 
+Cylindrical_I_Correction(0.75)  
+th2_offset zer  0.000242343134`_0.000209885819
+ 
+
+no_LIMIT_warnings  
+
+
+'continue_after_convergence
+
+
+
+#ifdef RS
+str   
+local  !phase_number 1  
+phase_name "RS" 
+scale @  0.000662928057`_2.518e-05
+
+ 
+       
+prm  eta1  0.54896674`_0.0186439776 min 0.01 max 0.999
+prm  s4001  8163.15209`_247.452995
+prm  s2201 -8029.90826`_246.201618
+
+Stephens_cubic( eta , =eta1;,
+              s400 , =s4001;,   
+              s220 , =s2201; )    
+
+
+space_group "Fm-3m"
+
+
+a a_rs  4.243910`_0.000084 'update = Val + 0.1 Change ; 
+b = Get(a) ;
+c = Get(a) ;
+al 90
+be 90
+ga 90
+volume 80
+
+MVW( 293.253`_2.547, 76.436`_0.005, 100.000`_0.000)
+
+site  Mg  x 0.0 y 0.0 z 0.0   occ Mg occ_Mg  0.11004`_0.02620 min 0.1 max 0.8 beq beq_RS  0.55822`_0.04010 min 0.2 max 2 num_posns  4  
+site  Cu  x 0.0 y 0.0 z 0.0   occ Cu = 1 - occ_Mg ;       beq = beq_RS ;  min 0.2 max 2 num_posns  4                                                                 
+site  O   x 0.5 y 0.5 z 0.5   occ O  1       beq = beq_RS*1.2 ;       num_posns  4
+
+
+Out_prms(RS_##Temp(0)##_TOT_test.txt , , TC , TK , Get(r_wp), Get(a), Get(a), Get(a) , Get(cell_volume) , Get(beq) , Get(weight_percent) )
+
+#endif
+
+#ifdef TET
+str   
+local  !phase_number 2  
+phase_name "TET" 
+scale @  0.00046325157_6.724e-05
+
+prm tet_etac  0.569783524_0.222897205 min 0.0001 max 0.99999 
+prm tet_s400c  27243.5294_27657.8855 
+prm tet_s004c  28266.2062_26209.8545 
+prm tet_s220c -113043.868_385854.898 
+prm tet_s202c -55022.5555_47365.362  
+
+
+Stephens_tetragonal_high
+   (
+      etac ,  =tet_etac; , 
+      s400c , =tet_s400c; ,       
+      s004c , =tet_s004c; ,       
+      s220c , =tet_s220c; ,       
+      s202c , =tet_s202c;         
+   )    
+
+
+
+
+prm da  0.00858968705_0.000120663969 min -0.1 max 0.1
+
+
+space_group "I4/mmm" 
+   
+a    a_tet = (c_tet + da)/Sqrt(2) ; :  3.011481_0.000116
+b    = Get(a) ;  
+c    c_tet  4.250288_0.000112
+al    90   
+be    90 
+ga    90  
+volume   38.546_0.004
+ 
+site  Cu  x 0 y 0 z 0     occ Cu = 1- ocMg ;  beq beq_tet  2.67207_0.21582 min 0.2 max 4
+site  Mg  x 0 y 0 z 0     occ Mg ocMg  0.10238_0.12258 min 0.1 max 0.8 beq = beq_tet ; 
+site  O   x 0 y 0 z 0.5   occ O  1    beq  = beq_tet*1.2 ; min 0.1 max 3
+
+Out_prms(TET_##Temp(0)##_TOT_test.txt , nr, TC , TK , Get(r_wp) , Get(a), Get(a), Get(c) , Get(cell_volume) , Get(beq) , Get(weight_percent) )
+
+
+#endif 
+
+
+
+
+#ifdef CuO
+str   
+local  !phase_number 3  
+phase_name "CuO" 
+scale @  2.37656691e-05_2.593e-06 min = 3.3e-06 ; max = 3.3e-05 ;
+
+prm   p13  0.0899999794_0.653541886 min 0.001   max 0.09   
+prm   p23  0.0699085732_0.0535685586 min 0.001   max 0.07 
+prm   p33  0.0899998488_2.2155182 min 0.001   max 0.09    
+prm   p43  0.0010137987_0.197746077 min 0.001   max 0.07          
+
+   
+  lor_fwhm =   p13 Tan(Th) + p23/Cos(Th) ;    
+  gauss_fwhm = p33 Tan(Th) + p43/Cos(Th) ;   
+  
+space_group "C12/c1" 
+   
+a    @    4.799228_0.003497 min 4.680    max 4.8
+b    @    3.424579_0.002004 min 3.417    max 4
+c    @    5.122039_0.004454 min 5.122    max 5.6
+al     90   
+be   @  99.64014_0.04322 min 97.5 max 100
+ga     90  
+volume   121.527_0.092
+
+MVW( 318.182, 82.994_0.106, 2.413_0.258)
+ 
+site  Cu_ten  x 0.25 y 0.25   z 0.0    occ Cu 1       beq beq_ten  3.00000_0.91039 min 0.2 max 3  num_posns  4                                                               
+site  O_ten   x 0.0  y  Par(0.4184 , 0.4184, 0.1) z 0.25   occ O  1       beq = beq_ten*1.2 ;       num_posns  4
+
+#endif
+
+
+
+#ifdef ZnO
+str   
+local  !phase_number 4  
+phase_name "ZnO" 
+scale @  1.82889446e-05_1.863e-06
+
+prm     p14  0.03_0.30229172 min 0.001  max 0.03            
+prm     p24  0.03_0.0297142788 min 0.001  max 0.03           
+prm     p34  0.03_0.346948914 min 0.001  max 0.03            
+prm     p44  0.03_0.0329314331 min 0.001  max 0.03   
+
+   
+  lor_fwhm =   p14 Tan(Th) + p24/Cos(Th) ;    
+  gauss_fwhm = p34 Tan(Th) + p44/Cos(Th) ;   
+  
+space_group "P63mc" 
+   
+a    @  3.330000_0.000856 min 3.25 max 3.33
+b    =  Get(a) ;
+c    @   5.180000_0.002611 min 5.18 max 5.25
+al     90   
+be     90
+ga     120  
+volume   121.527_0.092
+
+MVW( 162.817, 49.745_0.036, 0.554_0.056)
+ 
+site  Zn_w  x = 1/3 ; y = 2/3 ; z 0.0   occ Zn 1       beq !beq_w  1.5 min 0.2 max 3 num_posns  2                                                               
+site  O_w  x = 1/3 ;  y = 2/3 ; z   0.41189_0.03219 occ O  1   beq = beq_w*1.2 ;  min 0.2 max 3 num_posns  2
+#endif
+
+
+
+
+#ifdef Gug     'NOT THE REAL ONE!!!!!
+str
+phase_name "G_def" 
+local  !phase_number 5 
+scale @  5.19408354e-05_1.231e-06
+
+
+prm     !p15  0.1   'min 0.001  max 0.03            
+prm     !p25  0.1   'min 0.001  max 0.03           
+prm     !p35  0.1   'min 0.001  max 0.03            
+prm     !p45  0.1   'min 0.001  max 0.03   
+
+   
+  lor_fwhm =   p15 Tan(Th) + p25/Cos(Th) ;    
+  gauss_fwhm = p35 Tan(Th) + p45/Cos(Th) ;      
+
+
+
+space_group "Pmmn:2" 
+   
+a    4.073388_0.001195 update = Val + 0.1 Change ;
+b    9.400859_0.003390 update = Val + 0.1 Change ;
+c    3.134897_0.000941 update = Val + 0.1 Change ;
+al    90      
+be    90 
+ga    90  
+volume   118.706_0.093
+ 
+site  Mg1  x 0.25 y 0.25    z   Par(0.3635,0.3635,0.07) occ Mg occMgG  0.99000_0.02161 min 0.1 max 0.99 beq beqG  3.00000_0.17245 min 0.2 max 3 num_posns  2 
+                                       occ Cu = 1 - occMgG ;     beq = beqG ;
+site  Cu2  x 0.75 y   Par(0.086,0.086,0.007) z   Par(0.82808,0.82808,0.005) occ Cu 1       beq = beqG ;       num_posns  4 
+                                                                
+site  O1  x 0.75  y 0.25    z  Par(0.446,0.446,0.07)  occ O  1       beq  beqGO  = beqG*1.2 ; num_posns  2	 
+site  O2  x 0.25  y    Par(0.093,0.093,0.007) z   Par(0.87,0.87,0.07) occ O  1       beq  = beqGO ;      num_posns  4 
+
+
+MVW( 399.575_1.050 , 120.046 , 9.129_0.205)
+
+Out_prms(G_##Temp(0)##_TOT_test.txt , nr, TC , TK , Get(r_wp), Get(a), Get(b), Get(c) , Get(cell_volume) , Get(beq) , Get(weight_percent) )
+
+
+#endif
+
+
+
+'instrumental profile from Si_cal
+for strs 
+{
+prm   !pr1  0.0110035116 min 0.00001 
+prm   !pr2  0.000607938824 min 0.00001 
+prm   !pr3  3.84375e-05 min 0.00001 
+prm   !pr4  0.00192591549 min 0.00001 
+
+lor_fwhm = pr1 Tan(Th) + pr2/Cos(Th) ; 
+gauss_fwhm = pr3 Tan(Th) + pr4/Cos(Th) ;
+}
+
+Out_Plot(Cu20_##Temp(Run_Number)##.txt)
+
+
